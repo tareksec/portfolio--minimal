@@ -1,0 +1,259 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-neon: var(--neon);
+  --color-cyan-glow: var(--cyan-glow);
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root {
+  --radius: 0.875rem;
+  /* Minimalist deep-navy dark mode */
+  --background: oklch(0.18 0.02 250);
+  --foreground: oklch(0.96 0.005 240);
+  --card: oklch(0.22 0.02 250 / 70%);
+  --card-foreground: oklch(0.96 0.005 240);
+  --popover: oklch(0.2 0.02 250);
+  --popover-foreground: oklch(0.96 0.005 240);
+  --primary: oklch(0.78 0.16 160); /* calm green accent */
+  --primary-foreground: oklch(0.15 0.02 250);
+  --secondary: oklch(0.26 0.02 250);
+  --secondary-foreground: oklch(0.96 0.005 240);
+  --muted: oklch(0.24 0.015 250);
+  --muted-foreground: oklch(0.7 0.015 245);
+  --accent: oklch(0.72 0.13 220);
+  --accent-foreground: oklch(0.15 0.02 250);
+  --destructive: oklch(0.63 0.22 25);
+  --destructive-foreground: oklch(0.98 0.01 240);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 6%);
+  --ring: oklch(0.78 0.16 160);
+  --neon: oklch(0.78 0.16 160);
+  --cyan-glow: oklch(0.72 0.13 220);
+}
+
+html.light {
+  /* Minimalist clean light mode */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.2 0.02 250);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.02 250);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.02 250);
+  --primary: oklch(0.55 0.16 158); /* deeper green for contrast on white */
+  --primary-foreground: oklch(0.99 0.005 240);
+  --secondary: oklch(0.97 0.005 240);
+  --secondary-foreground: oklch(0.2 0.02 250);
+  --muted: oklch(0.97 0.005 240);
+  --muted-foreground: oklch(0.45 0.015 250);
+  --accent: oklch(0.5 0.14 220);
+  --accent-foreground: oklch(0.99 0.005 240);
+  --border: oklch(0.2 0.02 250 / 10%);
+  --input: oklch(0.2 0.02 250 / 5%);
+  --ring: oklch(0.55 0.16 158);
+  --neon: oklch(0.55 0.16 158);
+  --cyan-glow: oklch(0.5 0.14 220);
+}
+
+
+.dark {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+html.light { color-scheme: light; }
+html:not(.light) { color-scheme: dark; }
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+    transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+  }
+  html:not(.light) body {
+    background-image:
+      radial-gradient(ellipse 70% 50% at 50% -10%, color-mix(in oklab, var(--neon) 5%, transparent), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 90% 10%, color-mix(in oklab, var(--cyan-glow) 4%, transparent), transparent 60%);
+    background-attachment: fixed;
+  }
+}
+
+
+/* Aurora animation */
+@keyframes aurora-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(3%, -2%) rotate(1deg); }
+  66% { transform: translate(-2%, 3%) rotate(-1deg); }
+}
+@keyframes aurora-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-4%, 2%) scale(1.1); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--neon) 25%, transparent); }
+  50% { box-shadow: 0 0 18px 2px color-mix(in oklab, var(--neon) 30%, transparent); }
+}
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@utility aurora-layer {
+  position: absolute;
+  inset: -20%;
+  filter: blur(90px);
+  opacity: 0.18;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 30%, color-mix(in oklab, var(--neon) 45%, transparent), transparent 45%),
+    radial-gradient(circle at 70% 60%, color-mix(in oklab, var(--cyan-glow) 40%, transparent), transparent 50%);
+  animation: aurora-drift 22s ease-in-out infinite;
+}
+html.light .aurora-layer { opacity: 0.08; }
+@utility aurora-layer-2 {
+  position: absolute;
+  inset: -30%;
+  filter: blur(100px);
+  opacity: 0.12;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 60% 40%, color-mix(in oklab, var(--cyan-glow) 40%, transparent), transparent 55%),
+    radial-gradient(circle at 30% 70%, color-mix(in oklab, var(--neon) 35%, transparent), transparent 55%);
+  animation: aurora-drift-2 28s ease-in-out infinite;
+}
+html.light .aurora-layer-2 { opacity: 0.06; }
+@utility glass {
+  background-color: color-mix(in oklab, var(--card) 90%, transparent);
+  backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--foreground) 4%, transparent);
+}
+html.light .glass { backdrop-filter: none; background-color: var(--card); }
+@utility glass-strong {
+  background-color: color-mix(in oklab, var(--popover) 85%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--border);
+}
+html.light .glass-strong { background-color: color-mix(in oklab, var(--popover) 92%, transparent); }
+
+@utility glow-pulse {
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+@utility caret-blink {
+  animation: blink 1s step-end infinite;
+}
+@utility float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+@utility text-gradient-neon {
+  background: linear-gradient(135deg, var(--foreground), var(--neon), var(--cyan-glow));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@utility grid-bg {
+  background-image:
+    linear-gradient(color-mix(in oklab, var(--foreground) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--foreground) 5%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Skill bar scan animation */
+@keyframes skill-fill {
+  from { width: 0%; }
+  to { width: var(--skill-pct); }
+}
+@keyframes scan-sweep {
+  0%   { left: -8%; opacity: 1; }
+  90%  { left: 100%; opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+.skill-bar-track {
+  position: relative;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: color-mix(in oklab, var(--primary) 15%, transparent);
+  overflow: hidden;
+}
+.skill-bar-fill {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: var(--color-primary);
+  width: 0%;
+  animation: skill-fill 1.3s cubic-bezier(.4,0,.2,1) forwards;
+  animation-play-state: paused;
+}
+.skill-bar-scan {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8%;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary) 80%, white), transparent);
+  animation: scan-sweep 1.3s cubic-bezier(.4,0,.2,1) forwards;
+  animation-play-state: paused;
+}
+.skill-bar-animate .skill-bar-fill,
+.skill-bar-animate .skill-bar-scan {
+  animation-play-state: running;
+}
+
+/* 3D tilt card */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.08s linear, box-shadow 0.3s ease;
+  will-change: transform;
+}
+.tilt-card:not(:hover) {
+  transform: perspective(900px) rotateX(0deg) rotateY(0deg) !important;
+  transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+}
+
+/* Loading screen progress bar */
+@keyframes loading-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+

@@ -1,0 +1,112 @@
+# Lovable.ai Update Prompt — Md Tarek Portfolio (techvrs.com)
+
+Paste this into the same Lovable project to update the existing site.
+
+## 1. Light / Dark Mode
+Add a theme switcher icon (sun/moon) in the navbar, right side, next to the last nav link.
+- **Default theme on page load = Light mode.** This is not optional — when a new visitor lands on the site with no prior selection, they must see the light theme first, not dark.
+- **Light mode must be minimalist and clean:**
+  - Background: pure white or very light off-white (e.g. #FFFFFF or #FAFAFA) — no dark panels, no gradient washes.
+  - Text: dark navy/near-black for high contrast and readability.
+  - Accent color (green/cyan) used ONLY on small elements — buttons, links, icons, badges, active nav state, card borders on hover. Never as a background fill or glow behind large sections.
+  - Cards: white background with a thin light-gray border and soft subtle shadow — no glassmorphism/blur needed in light mode.
+  - Hero background animation (dots/particles): extremely subtle, almost invisible (5–10% opacity), using light gray or faint accent color — it should feel like texture, not a visual effect.
+- **Dark mode must also be minimalist, not neon/cyberpunk:**
+  - Background: deep navy or near-black (e.g. #0B0F14).
+  - Same restrained accent usage as light mode — accent color only on interactive elements, not as ambient glow across the page.
+  - Aurora/particle background animation: low opacity, calm — a "clean dark UI" feeling, not a glowing sci-fi effect.
+  - Cards: dark surface with a subtle lighter border, soft shadow — glass/blur effect is fine here but should stay subtle, not heavy.
+- Both themes should read as the same professional design system, just inverted in color — same spacing, same typography scale, same restraint. No neon-heavy, glowing, or "gamer" aesthetic in either mode.
+- Persist the user's manual toggle choice using React state for the session (no localStorage).
+- Smooth 300ms transition on toggle — no flash or instant snap.
+
+## 2. Hero Section Animations
+- **Dot/Particle Background:** small dots drifting slowly in the hero background; nearby dots connect with a thin faint line when close together (constellation/particle-network effect). Subtle green/cyan tone, low opacity (10–20%) so it never competes with text readability — visible in both light and dark mode, adapted to each theme's contrast.
+- **Flip Fade Text (role subtitle):** cycles through role titles ("Penetration Tester," "Cybersecurity Analyst," "Web App Security Enthusiast") with a vertical 3D flip + fade (rotateX -90°→0°, opacity 0→1), holds ~2s, flips out, next role flips in. Loops continuously.
+
+## 3. Mouse Hover Effects (site-wide)
+- **Nav links:** underline-slide-in or soft glow on hover.
+- **Buttons:** consistent interaction language across the site — glow/scale on primary buttons, fill-transition on outlined buttons.
+- **Cards (skills/certs/projects/blog):** lift on hover (translateY -6px), border glows accent color, shadow increases.
+- **Social icons:** scale to 1.1x + shift to accent color on hover.
+- **Floating dock icons:** scale up + tooltip label appears above icon on hover.
+
+## 4. New Pages / Sections
+
+### Blog Page — Professional & Enhanced
+- "Blog" link in navbar and floating dock.
+- Source posts from Medium: https://medium.com/@mdtareksec
+- **Hero/Featured post:** the single most recent article gets a large featured card at the top — full-width or 2/3-width cover image, title in large bold type, 2–3 line excerpt, publish date, estimated read time, category tag, and a prominent "Read Full Article →" button. This should feel like a magazine/editorial hero, not a generic card.
+- **Post grid:** remaining articles in a clean 3-column responsive grid (1-column on mobile), each card with:
+  - Cover image (16:9), with a themed placeholder graphic (subtle icon/pattern matching the site's accent color) if the post has no image.
+  - Category/tag pill (e.g., "Pentesting," "Web Security," "Career," "Write-ups") — color-coded by category using the accent palette.
+  - Title (2-line clamp), short excerpt (2-line clamp), publish date, estimated read time.
+  - Hover: card lifts, shadow deepens, cover image slightly zooms (scale 1.05), title color shifts to accent.
+- **Page header:** short personal intro — "Thoughts on cybersecurity, pentesting, and my journey from SEO to security" — with a "Follow on Medium →" button linking to the profile, positioned top of page above the featured post.
+- **Category filter bar:** horizontal row of filter pills (All, Pentesting, Web Security, Career, Write-ups, etc.) above the grid to filter posts by tag — active filter highlighted in accent color.
+- **Bottom CTA banner:** full-width minimal strip — "Want more? Follow techvrs on Medium for new posts" with a Medium follow button, subtle background tint (not heavy).
+- **Empty/loading states:** clean skeleton-loader cards while fetching, and a friendly empty state if no posts are found.
+- If live RSS fetching isn't feasible, build the exact same polished layout with 4–5 sample post cards clearly marked as editable placeholders, so real posts can be swapped in later without touching the design.
+
+### Projects / Work Details Page
+- "Projects" page with full case-study cards: title, short description, tech/tools used, GitHub repo link, optional live demo link.
+- Clicking a card opens a detail view/modal with fuller write-up (problem, approach, outcome).
+
+### Certificates Section
+Feature real certificates as cards — logo/badge, title, issuer, issue date, and a "Verify" button:
+
+1. **Ethical Hacker** — Cisco Networking Academy — issued May 19, 2026 — Verify: https://media.licdn.com/dms/image/v2/D5622AQGv6_RvUZ9fjA/feedshare-image-high-res/B56Z4.6HWHGUAU-/0/1779171882652?e=1783555200&v=beta&t=_pz0b3jmxkXTPkUcrJr_mXBk3uANflhMrWz-CfeSJTg
+2. **NDE-112-51: Network Defense Essentials (NDE)** — EC-Council (via edX) — issued Jan 24, 2026 — Verify: https://courses.edx.org/certificates/bcc0a5b938ba4c55a450a82960c83320
+3. **Google Cybersecurity Professional Certificate** — Google (via Coursera, 9-course program) — issued Jan 24, 2026 — Verify: https://coursera.org/verify/professional-cert/VUOP1P0YBNG1
+4. **Microsoft Certified: Security Analyst** — status: **In Progress / Pending** — show a "🕒 In Progress" badge instead of a Verify button.
+
+Staggered-grid layout; Google Cybersecurity card visually featured/larger as the flagship cert.
+
+## 5. Personal Branding — techvrs.com
+- **Navbar:** "techvrs" wordmark (or small logo mark + wordmark) on the left side, styled in the accent color, acting as the site logo/home link.
+- **Browser tab:** title like "Md Tarek | techvrs — Cybersecurity Analyst & Pentester," simple themed favicon (e.g., stylized ">_" or shield icon).
+- **Footer:** "© 2026 techvrs.com — All rights reserved," repeated social icons, "Back to top" link.
+- **Meta/SEO tags:** description referencing techvrs.com and Md Tarek's cybersecurity focus.
+- Structure code so techvrs.com can be set as the production domain later without further changes.
+
+## 6. Modern Enhancements
+
+### Cursor Trail Effect
+A small glowing dot (accent color, ~6–8px, soft blur/glow) follows the mouse cursor with a slight lag/easing (like a trailing comet), visible across the whole site. Keep it subtle and performant — disable/hide on touch devices (mobile/tablet) since there's no cursor.
+
+### Skills "Scan" Animation
+When the Skills section scrolls into view, each skill bar animates from 0% to its actual percentage over ~1–1.5s with a slight easing, as if a scan is running. Add a faint horizontal "scan line" sweep across each bar during the fill (a thin lighter-colored line moving left to right), reinforcing the security/scanning theme. Stagger each bar's start by ~100ms so they don't all fill at once.
+
+### 3D Tilt Effect on Cards
+Project, certificate, and skill cards tilt slightly in 3D based on cursor position when hovered (perspective transform, max ~8–10° tilt on X/Y axes), with a subtle highlight/gloss following the cursor. Smooth spring-based easing on enter/leave, not a sharp snap. Disable this on touch devices.
+
+### GitHub Contribution Graph
+Embed a live GitHub contribution heatmap for github.com/tareksec (e.g., using a GitHub-readme-stats style embed or an image-based contribution graph API). Place it in the About or a dedicated "Activity" section, styled to match the current theme (light/dark variants).
+
+### "Now" Section
+A short, personal "What I'm doing now" card/section — e.g., "Currently learning: Microsoft Security Analyst cert · Building: [current project] · Focused on: Network Defense" — styled as a highlighted callout box (not a full section, keep it compact), positioned near About or the top of Experience. Include a small "last updated" date so it reads as actively maintained.
+
+### Testimonials / Recommendations
+A "Testimonials" section with card carousel or grid — each card: quote, person's name, their role/relationship (e.g., "Mentor," "Client," "Colleague"), optional photo/avatar. Build the section with 2–3 placeholder testimonial cards clearly marked as editable, ready to swap with real recommendations later.
+
+### Interactive Timeline (Experience)
+Convert the Experience timeline into a scroll-driven animation: a vertical line draws itself (SVG stroke animation) as the user scrolls down, with each timeline node/entry fading + sliding in when the drawing line reaches it. Should feel smooth and tied to scroll position, not just a one-time fade-in.
+
+### Branded Loading Screen
+A minimal loading screen shown for ~2–3 seconds on first visit: centered "techvrs" wordmark/logo with a simple animation (e.g., typing effect, pulsing glow, or a thin progress bar), then fades out into the site. Keep it lightweight — should not feel like a delay tactic, just a polished first impression.
+
+### Custom 404 Page
+A themed 404 page matching the site's cybersecurity identity — e.g., "403/404 — Access Denied" or "Page Not Found in the System" messaging, using the same design language (accent colors, subtle animation), with a clear "Return to Home" button.
+
+## Technical Notes
+- Framework: Next.js (React) + Tailwind CSS, Framer Motion for animations.
+- Default theme on first load: **Light** (explicitly set as the initial state — do not default to dark and let the user switch).
+- Fully responsive across all pages/sections.
+
+---
+**Still open / to confirm:**
+- GitHub repo + live demo links for each project
+- Whether Blog should live-fetch from Medium RSS or stay as manually-updated cards
+- Microsoft cert's exact title once completed (confirm from Microsoft Learn)
+- Real testimonial/recommendation text + names (currently placeholder)
+- Actual "Now" section content (currently placeholder — what to learn/build to mention)
