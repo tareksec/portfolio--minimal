@@ -33,6 +33,7 @@ import {
   ArrowUp,
   Sun,
   Moon,
+  Phone,
 } from "lucide-react";
 import heroArt from "@/assets/hero-character.png";
 import certGoogle from "@/assets/cert-google.png";
@@ -161,14 +162,14 @@ function TiltCard({ children, className = "" }: { children: ReactNode; className
 const NAV = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
-  { id: "projects", label: "Projects" },
   { id: "skills", label: "Skills" },
+  { id: "projects", label: "Projects" },
   { id: "certifications", label: "Certs" },
   { id: "contact", label: "Contact" },
 ];
 
 const ROLES = [
-  "Cybersecurity Analyst",
+  "SOC-Focused Security Analyst | SIEM · MITRE ATT&CK · Threat Detection",
   "Penetration Tester",
   "Web App Security Enthusiast",
 ];
@@ -187,7 +188,7 @@ function Portfolio() {
           <About />
           <NowCard />
           <Experience />
-          <Testimonials />
+          {/* <Testimonials /> */}
           <Skills />
           <Projects />
           <Certifications />
@@ -260,7 +261,7 @@ function TopNav() {
   }, []);
 
   return (
-    <header className="fixed left-1/2 top-4 z-50 -translate-x-1/2 sm:top-6">
+    <header className="fixed left-1/2 top-4 z-50 -translate-x-1/2 sm:top-6 hidden md:block">
       <nav className="glass-strong flex items-center gap-1 rounded-full px-2 py-1.5 shadow-2xl shadow-black/40">
         <a
           href="https://techvrs.com"
@@ -472,7 +473,7 @@ function Hero() {
           <div className="flex flex-wrap gap-3 text-sm">
             <span className="glass inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-muted-foreground">
               <MapPin className="h-3.5 w-3.5" />
-              Based in [City, Country]
+              Dhaka, Bangladesh
             </span>
             <span className="glass inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-muted-foreground">
               <Circle className="h-3.5 w-3.5 fill-primary text-primary" />
@@ -488,8 +489,9 @@ function Hero() {
               Hire Me
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
+            {/* TODO: Upload your CV PDF to public/ or src/assets/ and update this href */}
             <a
-              href="#"
+              href="[PATH TO YOUR CV PDF, e.g. /assets/tarek-cv.pdf]"
               className="group inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 font-semibold text-foreground transition-all duration-300 hover:bg-foreground hover:text-background hover:shadow-[0_0_20px_var(--cyan-glow)]"
             >
               <Download className="h-4 w-4" />
@@ -623,6 +625,9 @@ function About() {
               </span>
               , constantly learning through labs, CTFs, and real-world reports.
             </p>
+            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+              Most recently, I built SOC Sentinel — a live SOC dashboard that triages real Wazuh SIEM alerts and maps them to MITRE ATT&CK techniques.
+            </p>
           </div>
         </Reveal>
         <Reveal delay={0.2}>
@@ -661,12 +666,12 @@ function NowCard() {
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
               <div className="text-sm">
-                <span className="font-semibold text-foreground">Learning → </span>
-                <span className="text-muted-foreground">Microsoft Security Analyst cert</span>
+                <span className="font-semibold text-foreground">Preparing → </span>
+                <span className="text-muted-foreground">Microsoft SC-200 (Security Operations Analyst)</span>
               </div>
               <div className="text-sm">
                 <span className="font-semibold text-foreground">Building → </span>
-                <span className="text-muted-foreground">Python recon automation toolkit</span>
+                <span className="text-muted-foreground">SOC Sentinel v2 — LLM-based alert classification (GPT-4o-mini)</span>
               </div>
               <div className="text-sm">
                 <span className="font-semibold text-foreground">Focused on → </span>
@@ -743,13 +748,13 @@ const EXPERIENCE = [
   {
     role: "Freelancer — SEO Specialist",
     org: "Independent",
-    duration: "20XX – Present  · editable",
+    duration: "[START DATE] – [END DATE or Present]",
     desc: "Delivered analytical SEO strategies for clients, sharpening research, data interpretation, and reporting skills that translate directly into security analysis.",
   },
   {
     role: "Cybersecurity Projects / Self-Study",
-    org: "Personal Lab · editable",
-    duration: "Ongoing",
+    org: "Personal Lab",
+    duration: "[START DATE] – Present",
     desc: "Practicing web application pentesting, network defense, and vulnerability analysis through certifications, home labs, and CTF platforms.",
   },
 ];
@@ -798,6 +803,7 @@ const SKILLS = [
   { icon: Code2, title: "Linux", desc: "Command line, hardening, shell scripting.", pct: 78 },
   { icon: Code2, title: "Python (Security Scripting)", desc: "Automation, tooling, and lightweight exploit dev.", pct: 65 },
   { icon: Lock, title: "Network Defense (NDE)", desc: "Defensive monitoring, IDS/IPS tuning, log analysis.", pct: 70 },
+  { icon: Shield, title: "SIEM & Threat Framework Mapping", desc: "Wazuh SIEM deployment, MITRE ATT&CK technique mapping, alert triage and severity classification.", pct: 70 },
 ];
 
 function SkillBar({ pct, delay }: { pct: number; delay: number }) {
@@ -867,6 +873,16 @@ type Project = {
 };
 
 const PROJECTS: Project[] = [
+  {
+    title: "SOC Sentinel — Alert Triage Dashboard with MITRE ATT&CK Auto-Tagging",
+    tag: "SIEM / SOC · editable",
+    desc: "A SOC console that pulls live alerts from a Wazuh SIEM deployment (Azure VM), auto-tags each with its MITRE ATT&CK technique, and renders severity breakdown, top techniques, and a full triage queue in a Streamlit dashboard. Deployed and tested end-to-end against a live feed of 11,893+ real alerts.",
+    tech: ["Wazuh", "Python", "MITRE ATT&CK", "Streamlit", "OpenSearch API"],
+    github: "https://github.com/tareksec/-AI-Powered-Alert-Triage-System-with-MITRE-ATT-CK-Auto-Tagging",
+    problem: "Raw SIEM alerts lacked immediate context and MITRE ATT&CK mapping, making triage slow and manual.",
+    approach: "Built a Streamlit dashboard pulling live alerts from an Azure Wazuh VM via OpenSearch API, implementing auto-tagging for techniques and severity.",
+    outcome: "Successfully tested against 11,893+ real alerts, providing instant visibility into top techniques and accelerating triage.",
+  },
   {
     title: "Web App Vulnerability Report",
     tag: "OWASP · editable",
@@ -1036,7 +1052,7 @@ const CERTS: Cert[] = [
     title: "Ethical Hacker",
     issuer: "Cisco Networking Academy",
     date: "May 19, 2026",
-    verify: "https://media.licdn.com/dms/image/v2/D5622AQGv6_RvUZ9fjA/feedshare-image-high-res/B56Z4.6HWHGUAU-/0/1779171882652?e=1783555200&v=beta&t=_pz0b3jmxkXTPkUcrJr_mXBk3uANflhMrWz-CfeSJTg",
+    verify: "[CORRECT VERIFICATION URL]",
     image: certCisco,
   },
   {
@@ -1237,11 +1253,15 @@ function Contact() {
               <div className="space-y-3 text-sm">
                 <div className="flex items-center gap-3">
                   <Mail className="h-4 w-4 text-primary" />
-                  <span className="font-mono text-muted-foreground">your.email@example.com — replace</span>
+                  <span className="font-mono text-muted-foreground">mdtarekcom376@gmail.com</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Phone className="h-4 w-4 text-primary" />
+                  <span className="font-mono text-muted-foreground">01903878932 (WhatsApp)</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <MapPin className="h-4 w-4 text-primary" />
-                  <span className="text-muted-foreground">[City, Country] — editable</span>
+                  <span className="text-muted-foreground">Dhaka, Bangladesh</span>
                 </div>
               </div>
               <SocialRow />
@@ -1297,7 +1317,7 @@ function GlassDock() {
     { icon: FileText, label: "Resume", href: "#" },
   ];
   return (
-    <div className="fixed bottom-5 left-1/2 z-40 -translate-x-1/2">
+    <div className="fixed bottom-5 left-1/2 z-40 -translate-x-1/2 md:hidden">
       <div className="glass-strong flex items-end gap-1.5 rounded-2xl px-3 py-2 shadow-2xl shadow-black/50">
         {items.map(({ icon: Icon, label, href, to }) => {
           const cls =
