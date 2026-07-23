@@ -251,6 +251,79 @@ html.light .glass-strong { background-color: color-mix(in oklab, var(--popover) 
   transition: transform 0.5s cubic-bezier(.4,0,.2,1);
 }
 
+/* ─── Hero photo ring ─── */
+.hero-photo-ring {
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    var(--neon) 0%,
+    var(--cyan-glow) 25%,
+    color-mix(in oklab, var(--neon) 30%, transparent) 50%,
+    var(--cyan-glow) 75%,
+    var(--neon) 100%
+  );
+  animation: border-rotate 6s linear infinite;
+  box-shadow:
+    0 0 30px color-mix(in oklab, var(--neon) 25%, transparent),
+    0 0 60px color-mix(in oklab, var(--neon) 10%, transparent);
+  transition: box-shadow 0.4s ease;
+}
+.hero-photo-ring:hover {
+  box-shadow:
+    0 0 40px color-mix(in oklab, var(--neon) 40%, transparent),
+    0 0 80px color-mix(in oklab, var(--neon) 15%, transparent);
+}
+
+/* ─── Project card highlight styles ─── */
+@keyframes border-rotate {
+  0%   { --border-angle: 0deg; }
+  100% { --border-angle: 360deg; }
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.project-border-glow {
+  background: conic-gradient(
+    from var(--border-angle),
+    var(--neon) 0%,
+    var(--cyan-glow) 25%,
+    transparent 50%,
+    var(--cyan-glow) 75%,
+    var(--neon) 100%
+  );
+  animation: border-rotate 4s linear infinite;
+}
+
+.project-card-featured:hover .project-border-glow {
+  filter: brightness(1.4);
+}
+
+.project-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    color-mix(in oklab, var(--primary) 6%, transparent) 45%,
+    color-mix(in oklab, var(--primary) 10%, transparent) 50%,
+    color-mix(in oklab, var(--primary) 6%, transparent) 55%,
+    transparent 70%
+  );
+  background-size: 250% 100%;
+  background-position: 200% 0;
+  pointer-events: none;
+}
+
+.project-card:hover .project-shimmer {
+  animation: shimmer-sweep 1.2s ease-out forwards;
+}
+
+@keyframes shimmer-sweep {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* Loading screen progress bar */
 @keyframes loading-fill {
   from { width: 0%; }

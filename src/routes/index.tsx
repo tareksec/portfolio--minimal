@@ -35,10 +35,11 @@ import {
   Moon,
   Phone,
 } from "lucide-react";
-import heroArt from "@/assets/hero-character.png";
+import heroArt from "@/assets/hero-character.jpeg";
 import certGoogle from "@/assets/cert-google.png";
 import certEc from "@/assets/cert-eccouncil.png";
 import certCisco from "@/assets/cert-cisco.png";
+import logoImg from "@/assets/logo.png";
 
 export const Route = createFileRoute("/")({
   component: Portfolio,
@@ -99,13 +100,11 @@ function LoadingScreen({ onDone }: { onDone: () => void }) {
         className="flex flex-col items-center gap-6"
       >
         <motion.div
-          className="font-mono text-4xl font-bold"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
-          <span className="text-accent">&gt;_</span>{" "}
-          <span className="text-primary">techvrs</span>
+          <img src={logoImg} alt="techvrs" className="h-12 w-auto drop-shadow-md" />
         </motion.div>
         <div className="h-0.5 w-52 overflow-hidden rounded-full bg-border">
           <motion.div
@@ -506,29 +505,38 @@ function Hero() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.2 }}
-          className="relative mx-auto w-full max-w-md"
+          className="relative mx-auto flex w-full max-w-sm items-center justify-center"
         >
-          <div className="pointer-events-none absolute inset-0 -z-10 blur-3xl">
-            <div className="mx-auto h-full w-full rounded-full bg-primary/25" />
+          {/* Ambient glow behind photo */}
+          <div className="pointer-events-none absolute inset-0 -z-10 blur-[80px]">
+            <div className="mx-auto h-3/4 w-3/4 translate-y-8 rounded-full bg-primary/30" />
           </div>
-          <div className="float-slow relative">
-            <img
-              src={heroArt}
-              alt="Illustration of Md Tarek working on a laptop"
-              width={512}
-              height={512}
-              className="mx-auto h-auto w-full drop-shadow-[0_0_60px_var(--neon)]"
-            />
-            <FloatingIcon className="top-6 left-0" delay={0}>
+
+          <div className="relative">
+            {/* Photo container with gradient ring */}
+            <div className="hero-photo-ring relative mx-auto h-80 w-80 rounded-full p-1 sm:h-96 sm:w-96">
+              <div className="h-full w-full overflow-hidden rounded-full bg-background">
+                <img
+                  src={heroArt}
+                  alt="Portrait of Md Tarek — Cybersecurity Analyst"
+                  width={400}
+                  height={400}
+                  className="h-full w-full object-cover object-top"
+                />
+              </div>
+            </div>
+
+            {/* Floating tech icons around the photo */}
+            <FloatingIcon className="-left-4 top-8 sm:-left-6 sm:top-10" delay={0}>
               <Lock className="h-5 w-5 text-primary" />
             </FloatingIcon>
-            <FloatingIcon className="top-24 right-0" delay={0.5}>
+            <FloatingIcon className="-right-4 top-20 sm:-right-6 sm:top-24" delay={0.5}>
               <Shield className="h-5 w-5 text-accent" />
             </FloatingIcon>
-            <FloatingIcon className="bottom-24 left-0" delay={1}>
+            <FloatingIcon className="-left-2 bottom-20 sm:-left-4 sm:bottom-24" delay={1}>
               <Code2 className="h-5 w-5 text-primary" />
             </FloatingIcon>
-            <FloatingIcon className="bottom-8 right-4" delay={1.5}>
+            <FloatingIcon className="-right-2 bottom-6 sm:-right-4 sm:bottom-8" delay={1.5}>
               <Terminal className="h-5 w-5 text-accent" />
             </FloatingIcon>
           </div>
@@ -870,12 +878,25 @@ type Project = {
   problem: string;
   approach: string;
   outcome: string;
+  featured?: boolean;
 };
 
 const PROJECTS: Project[] = [
   {
-    title: "SOC Sentinel — Alert Triage Dashboard with MITRE ATT&CK Auto-Tagging",
-    tag: "SIEM / SOC · editable",
+    title: "Phishing Triage Kill Chain Analyzer",
+    tag: "SOC / Threat Intel",
+    featured: true,
+    desc: "An AI-powered internal tool for SOC analysts to ingest, analyze, and triage suspicious emails. Maps threats to the Cyber Kill Chain and MITRE ATT&CK frameworks, cross-referencing extracted URLs against VirusTotal and urlscan.io. Features AI-driven threat analysis, dual-source URL reputation checking, dynamic kill chain visualization, deep email parsing (SPF/DKIM/DMARC), interactive SOC chatbot, and a 0–100 risk scoring engine.",
+    tech: ["Node.js", "React", "Vite", "MySQL", "OpenRouter LLM", "VirusTotal API", "urlscan.io"],
+    github: "https://github.com/tareksec/Phishing-Triage-Kill-Chain-Analyzer",
+    problem: "SOC analysts lacked a unified tool to rapidly triage suspicious emails with automated threat intelligence and kill chain context.",
+    approach: "Built a full-stack platform with Express backend parsing .eml files via mailparser, enriching URLs through parallel VirusTotal and urlscan.io checks, and leveraging OpenRouter LLMs for automated threat analysis and kill chain mapping.",
+    outcome: "Delivered a complete triage workflow — from .eml upload to AI-generated risk scores and kill chain visualization — cutting email analysis time from 15+ minutes to under 2 minutes.",
+  },
+  {
+    title: "AI-Powered Alert Triage with MITRE ATT&CK Auto-Tagging",
+    tag: "SIEM / SOC",
+    featured: true,
     desc: "A SOC console that pulls live alerts from a Wazuh SIEM deployment (Azure VM), auto-tags each with its MITRE ATT&CK technique, and renders severity breakdown, top techniques, and a full triage queue in a Streamlit dashboard. Deployed and tested end-to-end against a live feed of 11,893+ real alerts.",
     tech: ["Wazuh", "Python", "MITRE ATT&CK", "Streamlit", "OpenSearch API"],
     github: "https://github.com/tareksec/-AI-Powered-Alert-Triage-System-with-MITRE-ATT-CK-Auto-Tagging",
@@ -915,36 +936,120 @@ const PROJECTS: Project[] = [
   },
 ];
 
+function ProjectCard({ project, index, onClick }: { project: Project; index: number; onClick: () => void }) {
+  const isFeatured = project.featured;
+  return (
+    <button
+      onClick={onClick}
+      className={`project-card group relative h-full w-full overflow-hidden rounded-2xl text-left transition-all duration-500 ${
+        isFeatured
+          ? "project-card-featured p-0"
+          : "glass p-6 hover:-translate-y-2 hover:border-accent/50 hover:shadow-2xl hover:shadow-primary/15"
+      }`}
+    >
+      {/* Animated gradient border for featured */}
+      {isFeatured && (
+        <>
+          <div className="project-border-glow absolute -inset-px z-0 rounded-2xl" />
+          <div className="relative z-10 flex h-full flex-col rounded-[calc(1rem-1px)] bg-background p-6 sm:p-8">
+            <div className="mb-3 flex items-center gap-3">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary font-mono text-xs font-bold text-primary-foreground">
+                {String(index).padStart(2, "0")}
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-widest text-primary">Featured</span>
+              <span className="ml-auto font-mono text-[10px] uppercase tracking-widest text-accent">{project.tag}</span>
+            </div>
+            <h3 className="text-xl font-bold leading-tight sm:text-2xl">{project.title}</h3>
+            <p className="mt-3 flex-1 overflow-hidden text-sm leading-relaxed text-muted-foreground line-clamp-4">{project.desc}</p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {project.tech.slice(0, 5).map((t) => (
+                <span key={t} className="rounded-full bg-primary/10 px-2.5 py-0.5 font-mono text-[10px] font-medium text-primary ring-1 ring-primary/20">
+                  {t}
+                </span>
+              ))}
+              {project.tech.length > 5 && (
+                <span className="rounded-full bg-muted px-2.5 py-0.5 font-mono text-[10px] text-muted-foreground">
+                  +{project.tech.length - 5}
+                </span>
+              )}
+            </div>
+            <div className="mt-5 inline-flex items-center gap-2 self-start rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-all group-hover:bg-primary group-hover:text-primary-foreground">
+              Explore case study <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Regular project card */}
+      {!isFeatured && (
+        <>
+          {/* Shimmer overlay */}
+          <div className="project-shimmer absolute inset-0 z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+          {/* Top gradient line */}
+          <div className="absolute inset-x-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          {/* Glow backdrop */}
+          <div className="absolute -right-12 -top-12 z-0 h-32 w-32 rounded-full bg-primary/0 blur-3xl transition-all duration-500 group-hover:bg-primary/20" />
+          
+          <div className="relative z-20">
+            <div className="mb-3 flex items-center justify-between">
+              <span className="font-mono text-xs uppercase tracking-widest text-accent">{project.tag}</span>
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 font-mono text-xs font-bold text-primary/60 transition-all group-hover:bg-primary group-hover:text-primary-foreground">
+                {String(index).padStart(2, "0")}
+              </span>
+            </div>
+            <h3 className="text-lg font-semibold transition-colors group-hover:text-primary">{project.title}</h3>
+            <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{project.desc}</p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {project.tech.slice(0, 3).map((t) => (
+                <span key={t} className="rounded-md bg-primary/10 px-2 py-0.5 font-mono text-[10px] text-primary">
+                  {t}
+                </span>
+              ))}
+            </div>
+            <div className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary opacity-0 transition-all duration-300 group-hover:opacity-100">
+              View case study <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            </div>
+          </div>
+        </>
+      )}
+    </button>
+  );
+}
+
 function Projects() {
   const [open, setOpen] = useState<Project | null>(null);
+  const featuredProjects = PROJECTS.filter((p) => p.featured);
+  const regularProjects = PROJECTS.filter((p) => !p.featured);
+
   return (
-    <section id="projects" className="px-4 py-24 sm:px-8">
-      <div className="mx-auto max-w-6xl">
+    <section id="projects" className="relative px-4 py-24 sm:px-8">
+      {/* Section background accent */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <div className="absolute left-1/2 top-0 h-px w-3/4 -translate-x-1/2 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        <div className="absolute left-1/2 top-1/2 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.03] blur-[120px]" />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl">
         <Reveal>
           <SectionHeader eyebrow="Projects" title="Things I've broken (safely)." />
         </Reveal>
-        <div className="grid gap-5 md:grid-cols-3">
-          {PROJECTS.map((p, i) => (
-            <Reveal key={p.title} delay={i * 0.1}>
-              <button
-                onClick={() => setOpen(p)}
-                className="glass group relative h-full w-full overflow-hidden rounded-2xl p-6 text-left transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/50 hover:shadow-xl hover:shadow-accent/20"
-              >
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                <span className="font-mono text-xs uppercase tracking-widest text-accent">{p.tag}</span>
-                <h3 className="mt-2 text-lg font-semibold">{p.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {p.tech.slice(0, 3).map((t) => (
-                    <span key={t} className="rounded-md bg-primary/10 px-2 py-0.5 font-mono text-[10px] text-primary">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-4 inline-flex items-center gap-1.5 text-sm text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                  View case study <ArrowRight className="h-3.5 w-3.5" />
-                </div>
-              </button>
+
+        {/* Featured projects row */}
+        {featuredProjects.length > 0 && (
+          <div className={`mb-6 grid gap-5 ${featuredProjects.length > 1 ? "lg:grid-cols-2" : ""}`}>
+            {featuredProjects.map((p, i) => (
+              <Reveal key={p.title} delay={i * 0.1}>
+                <ProjectCard project={p} index={i + 1} onClick={() => setOpen(p)} />
+              </Reveal>
+            ))}
+          </div>
+        )}
+
+        {/* Regular projects grid */}
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {regularProjects.map((p, i) => (
+            <Reveal key={p.title} delay={(i + 1) * 0.1}>
+              <ProjectCard project={p} index={i + 2} onClick={() => setOpen(p)} />
             </Reveal>
           ))}
         </div>
@@ -1289,7 +1394,7 @@ function Footer() {
     <footer className="border-t border-border/50 px-4 py-10 pb-28 sm:px-8">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 sm:flex-row sm:justify-between">
         <div className="flex items-center gap-2 font-mono text-sm text-muted-foreground">
-          <span className="text-accent">&gt;_</span>
+          <img src={logoImg} alt="techvrs" className="h-6 w-auto" />
           <span>© {new Date().getFullYear()} <a href="https://techvrs.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">techvrs.com</a> — All rights reserved</span>
         </div>
         <div className="flex items-center gap-4">
