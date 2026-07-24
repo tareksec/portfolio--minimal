@@ -40,6 +40,9 @@ import certGoogle from "@/assets/cert-google.png";
 import certEc from "@/assets/cert-eccouncil.png";
 import certCisco from "@/assets/cert-cisco.png";
 import logoImg from "@/assets/logo.png";
+import cvPdf from "@/assets/cv.pdf";
+import certAws from "@/assets/aws.png";
+import certOpswat from "@/assets/OPSWAT.png";
 
 export const Route = createFileRoute("/")({
   component: Portfolio,
@@ -463,10 +466,7 @@ function Hero() {
           </p>
 
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            I am an aspiring Cybersecurity Analyst and Penetration Tester with a solid
-            foundation in Web Application Security and Network Defense. Transitioning
-            from an SEO background, I bring a unique blend of analytical thinking and
-            technical curiosity to identifying and mitigating security vulnerabilities.
+            Cybersecurity Analyst and Penetration Tester focused on Web Application Security and Network Defense. Drawing on an SEO background, I apply deep analytical thinking to map attack surfaces, hunt for misconfigurations, and implement robust mitigations.
           </p>
 
           <div className="flex flex-wrap gap-3 text-sm">
@@ -488,9 +488,10 @@ function Hero() {
               Hire Me
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
-            {/* TODO: Upload your CV PDF to public/ or src/assets/ and update this href */}
             <a
-              href="[PATH TO YOUR CV PDF, e.g. /assets/tarek-cv.pdf]"
+              href={cvPdf}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 font-semibold text-foreground transition-all duration-300 hover:bg-foreground hover:text-background hover:shadow-[0_0_20px_var(--cyan-glow)]"
             >
               <Download className="h-4 w-4" />
@@ -625,13 +626,13 @@ function About() {
         <Reveal delay={0.1}>
           <div className="glass rounded-3xl p-8 sm:p-10 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10">
             <p className="text-lg leading-relaxed text-muted-foreground">
-              My path into cybersecurity started with search — understanding how systems
-              rank, respond, and fail. That same curiosity now drives how I probe web
-              applications, examine network traffic, and think like an adversary. I focus on{" "}
+              My path into cybersecurity started with search engine algorithms — analyzing how systems 
+              rank, respond, and fail. That same analytical rigor now drives how I probe web
+              applications, monitor network traffic, and anticipate adversarial tactics. I focus on{" "}
               <span className="text-foreground">
-                web application security, network defense, and hands-on penetration testing
+                web application security, active network defense, and hands-on penetration testing
               </span>
-              , constantly learning through labs, CTFs, and real-world reports.
+              . Whether I'm building SIEM dashboards or exploiting vulnerable VMs, I approach every challenge with an investigative mindset.
             </p>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
               Most recently, I built SOC Sentinel — a live SOC dashboard that triages real Wazuh SIEM alerts and maps them to MITRE ATT&CK techniques.
@@ -805,32 +806,27 @@ function Experience() {
 }
 
 const SKILLS = [
-  { icon: Network, title: "Network Security", desc: "Traffic analysis, firewalls, IDS/IPS fundamentals.", pct: 72 },
-  { icon: Shield, title: "Web Application Security", desc: "OWASP Top 10, secure code review, common vuln classes.", pct: 80 },
-  { icon: Terminal, title: "Penetration Testing", desc: "Recon, enumeration, exploitation, reporting.", pct: 68 },
-  { icon: Code2, title: "Linux", desc: "Command line, hardening, shell scripting.", pct: 78 },
-  { icon: Code2, title: "Python (Security Scripting)", desc: "Automation, tooling, and lightweight exploit dev.", pct: 65 },
-  { icon: Lock, title: "Network Defense (NDE)", desc: "Defensive monitoring, IDS/IPS tuning, log analysis.", pct: 70 },
-  { icon: Shield, title: "SIEM & Threat Framework Mapping", desc: "Wazuh SIEM deployment, MITRE ATT&CK technique mapping, alert triage and severity classification.", pct: 70 },
+  { icon: Network, title: "Network Security", desc: "Traffic analysis, firewalls, IDS/IPS fundamentals.", evidence: "Wireshark, pfSense, Suricata labs" },
+  { icon: Shield, title: "Web Application Security", desc: "OWASP Top 10, secure code review, common vuln classes.", evidence: "Burp Suite, OWASP ZAP, TryHackMe Web Fundamentals" },
+  { icon: Terminal, title: "Penetration Testing", desc: "Recon, enumeration, exploitation, reporting.", evidence: "HackTheBox, Nmap, Metasploit, Cisco Ethical Hacker" },
+  { icon: Code2, title: "Linux", desc: "Command line, hardening, shell scripting.", evidence: "Bash scripting, Ubuntu/Kali environments" },
+  { icon: Code2, title: "Python (Security Scripting)", desc: "Automation, tooling, and lightweight exploit dev.", evidence: "Custom async recon tools, API integration" },
+  { icon: Lock, title: "Network Defense (NDE)", desc: "Defensive monitoring, IDS/IPS tuning, log analysis.", evidence: "EC-Council NDE Certification, ELK stack" },
+  { icon: Shield, title: "SIEM & Threat Framework Mapping", desc: "Wazuh SIEM deployment, MITRE ATT&CK technique mapping, alert triage and severity classification.", evidence: "Wazuh, OpenSearch, Streamlit, 11k+ alerts triaged" },
 ];
 
-function SkillBar({ pct, delay }: { pct: number; delay: number }) {
+function SkillEvidence({ evidence, delay }: { evidence: string; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <div ref={ref} className="mt-4">
-      <div className="mb-1 flex justify-between font-mono text-[10px] text-muted-foreground">
-        <span>proficiency</span><span>{pct}%</span>
-      </div>
-      <div className={`skill-bar-track ${inView ? "skill-bar-animate" : ""}`}>
-        <div
-          className="skill-bar-fill"
-          style={{ "--skill-pct": `${pct}%`, animationDelay: `${delay}s` } as React.CSSProperties}
-        />
-        <div
-          className="skill-bar-scan"
-          style={{ animationDelay: `${delay}s` } as React.CSSProperties}
-        />
+    <div ref={ref} className="mt-4 border-t border-border/50 pt-3 opacity-0 transition-opacity duration-700" style={{ opacity: inView ? 1 : 0, transitionDelay: `${delay}s` }}>
+      <div className="flex items-start gap-2">
+        <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[10px] text-primary">
+          ✓
+        </span>
+        <span className="font-mono text-xs leading-relaxed text-muted-foreground">
+          {evidence}
+        </span>
       </div>
     </div>
   );
@@ -854,7 +850,7 @@ function Skills() {
                   </div>
                   <h3 className="text-lg font-semibold">{s.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-                  <SkillBar pct={s.pct} delay={i * 0.1} />
+                  <SkillEvidence evidence={s.evidence} delay={i * 0.1} />
                 </div>
               </TiltCard>
             </Reveal>
@@ -879,6 +875,7 @@ type Project = {
   approach: string;
   outcome: string;
   featured?: boolean;
+  image?: string;
 };
 
 const PROJECTS: Project[] = [
@@ -886,6 +883,8 @@ const PROJECTS: Project[] = [
     title: "Phishing Triage Kill Chain Analyzer",
     tag: "SOC / Threat Intel",
     featured: true,
+    image: "/phishing-arch.png",
+    demo: "https://email.techvrs.com/",
     desc: "An AI-powered internal tool for SOC analysts to ingest, analyze, and triage suspicious emails. Maps threats to the Cyber Kill Chain and MITRE ATT&CK frameworks, cross-referencing extracted URLs against VirusTotal and urlscan.io. Features AI-driven threat analysis, dual-source URL reputation checking, dynamic kill chain visualization, deep email parsing (SPF/DKIM/DMARC), interactive SOC chatbot, and a 0–100 risk scoring engine.",
     tech: ["Node.js", "React", "Vite", "MySQL", "OpenRouter LLM", "VirusTotal API", "urlscan.io"],
     github: "https://github.com/tareksec/Phishing-Triage-Kill-Chain-Analyzer",
@@ -897,6 +896,7 @@ const PROJECTS: Project[] = [
     title: "AI-Powered Alert Triage with MITRE ATT&CK Auto-Tagging",
     tag: "SIEM / SOC",
     featured: true,
+    image: "/alert-dashboard.png",
     desc: "A SOC console that pulls live alerts from a Wazuh SIEM deployment (Azure VM), auto-tags each with its MITRE ATT&CK technique, and renders severity breakdown, top techniques, and a full triage queue in a Streamlit dashboard. Deployed and tested end-to-end against a live feed of 11,893+ real alerts.",
     tech: ["Wazuh", "Python", "MITRE ATT&CK", "Streamlit", "OpenSearch API"],
     github: "https://github.com/tareksec/-AI-Powered-Alert-Triage-System-with-MITRE-ATT-CK-Auto-Tagging",
@@ -905,35 +905,33 @@ const PROJECTS: Project[] = [
     outcome: "Successfully tested against 11,893+ real alerts, providing instant visibility into top techniques and accelerating triage.",
   },
   {
-    title: "Web App Vulnerability Report",
-    tag: "OWASP · editable",
-    desc: "Sample write-up of a simulated web app pentest covering recon, exploitation, and remediation.",
-    tech: ["Burp Suite", "OWASP ZAP", "Nmap", "Python"],
-    github: "#",
-    problem: "A deliberately vulnerable web application needed a full black-box assessment against OWASP Top 10 risks.",
-    approach: "Performed recon, mapped attack surface, tested for injection, broken auth, IDOR, and misconfigurations. Documented reproduction steps and impact.",
-    outcome: "Delivered a structured pentest report with severity ratings, PoC screenshots, and prioritized remediation guidance.",
+    title: "Local Network Traffic Analysis & MITM Lab",
+    tag: "Network Security / Blue Team",
+    desc: "Built a hands-on lab using mitmproxy and Scapy to intercept and analyze traffic on an authorized local network, covering reconnaissance, interception, and custom traffic analysis scripting. Documented defense and mitigation strategies against MITM-style attacks, including certificate pinning and VPN usage.",
+    tech: ["mitmproxy", "Scapy", "Python", "Wireshark"],
+    github: "https://github.com/tareksec/local-Network-Traffic-Analysis-MITM-Lab",
+    problem: "Needed a controlled environment to study network interception techniques and validate defensive measures against Man-in-the-Middle attacks.",
+    approach: "Configured a local lab network, deployed mitmproxy for HTTP/S interception, and wrote custom Scapy scripts to analyze packet flows and test certificate pinning bypasses.",
+    outcome: "Successfully demonstrated practical MITM attack vectors and documented concrete mitigation strategies for securing local network traffic.",
   },
   {
-    title: "Home Lab Network Defense",
-    tag: "Blue Team · editable",
-    desc: "Segmented lab with IDS/IPS monitoring, log analysis pipeline, and simulated attacker traffic.",
-    tech: ["pfSense", "Suricata", "ELK Stack", "Wireshark"],
-    github: "#",
-    problem: "Needed a controlled environment to practice detection engineering against realistic threats.",
-    approach: "Built VLAN-segmented network with Suricata IDS forwarding to ELK. Replayed known malicious PCAPs and tuned rules.",
-    outcome: "Improved detection coverage for common C2 and reconnaissance patterns; created custom dashboards for triage.",
+    title: "Web Vulnerability Scanning & WordPress Security Hardening",
+    tag: "Web Application Security",
+    desc: "Used Acunetix and related web vulnerability scanners to identify security flaws across WordPress sites and web applications. Diagnosed and remediated vulnerabilities using Wordfence, reducing attack surface and improving overall site security posture.",
+    tech: ["Acunetix", "WordPress", "Wordfence"],
+    problem: "Target WordPress environments required a comprehensive security audit to identify and remediate known vulnerabilities.",
+    approach: "Conducted automated vulnerability scans using Acunetix, manually verified findings, and deployed Wordfence for continuous monitoring and firewall protection.",
+    outcome: "Significantly reduced the attack surface by hardening configurations, patching identified flaws, and implementing active defense mechanisms.",
   },
   {
-    title: "Python Recon Toolkit",
-    tag: "Tooling · editable",
-    desc: "Small scripts for subdomain discovery, port scanning helpers, and reporting automation.",
-    tech: ["Python", "asyncio", "Requests"],
-    github: "#",
-    problem: "Repetitive recon steps were slowing down engagement kick-offs.",
-    approach: "Wrote modular async CLI tools for subdomain enumeration, tech fingerprinting, and CSV export of findings.",
-    outcome: "Cut recon time roughly in half and standardized output formats for downstream analysis.",
-  },
+    title: "LLM Fine-Tuning on Azure VM",
+    tag: "AI / Cloud / ML",
+    desc: "Trained and fine-tuned a large language model on custom datasets using Azure virtual machine infrastructure, gaining hands-on experience with cloud-based ML workflows.",
+    tech: ["Azure", "LLM Fine-Tuning", "Python"],
+    problem: "Required scalable compute resources to fine-tune an open-source LLM on a specialized dataset.",
+    approach: "Provisioned and configured GPU-accelerated Azure virtual machines, prepared custom training datasets, and executed the fine-tuning pipeline using Python ML frameworks.",
+    outcome: "Successfully deployed a fine-tuned model capable of specialized tasks, establishing a reusable cloud-based ML workflow.",
+  }
 ];
 
 function ProjectCard({ project, index, onClick }: { project: Project; index: number; onClick: () => void }) {
@@ -973,8 +971,32 @@ function ProjectCard({ project, index, onClick }: { project: Project; index: num
                 </span>
               )}
             </div>
-            <div className="mt-5 inline-flex items-center gap-2 self-start rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-all group-hover:bg-primary group-hover:text-primary-foreground">
-              Explore case study <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <div className="mt-5 flex flex-wrap gap-3">
+              <div className="inline-flex items-center gap-2 self-start rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-all group-hover:bg-primary group-hover:text-primary-foreground">
+                Explore case study <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </div>
+              {project.demo && (
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:scale-105"
+                >
+                  <ExternalLink className="h-4 w-4" /> Live Demo
+                </a>
+              )}
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition hover:border-primary/60 hover:text-primary"
+                >
+                  <GithubIcon className="h-4 w-4" /> GitHub
+                </a>
+              )}
             </div>
           </div>
         </>
@@ -1006,8 +1028,21 @@ function ProjectCard({ project, index, onClick }: { project: Project; index: num
                 </span>
               ))}
             </div>
-            <div className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary opacity-0 transition-all duration-300 group-hover:opacity-100">
-              View case study <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            <div className="mt-5 flex items-center gap-4 opacity-0 transition-all duration-300 group-hover:opacity-100">
+              <div className="inline-flex items-center gap-1.5 text-sm font-medium text-primary">
+                View case study <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              </div>
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  <GithubIcon className="h-3.5 w-3.5" /> GitHub
+                </a>
+              )}
             </div>
           </div>
         </>
@@ -1080,6 +1115,11 @@ function Projects() {
               <span className="font-mono text-xs uppercase tracking-widest text-accent">{open.tag}</span>
               <h3 className="mt-2 text-2xl font-bold">{open.title}</h3>
               <p className="mt-2 text-muted-foreground">{open.desc}</p>
+              {open.image && (
+                <div className="mt-6 overflow-hidden rounded-xl border border-border">
+                  <img src={open.image} alt={open.title} className="h-auto w-full object-cover" />
+                </div>
+              )}
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {open.tech.map((t) => (
                   <span key={t} className="rounded-md bg-primary/10 px-2 py-1 font-mono text-xs text-primary">
@@ -1142,6 +1182,7 @@ type Cert = {
   image?: string;
   featured?: boolean;
   inProgress?: boolean;
+  desc?: string;
 };
 
 const CERTS: Cert[] = [
@@ -1157,7 +1198,7 @@ const CERTS: Cert[] = [
     title: "Ethical Hacker",
     issuer: "Cisco Networking Academy",
     date: "May 19, 2026",
-    verify: "[CORRECT VERIFICATION URL]",
+    verify: "https://www.credly.com/badges/948bcd84-6552-486e-a713-6e0d38ce2919",
     image: certCisco,
   },
   {
@@ -1175,7 +1216,27 @@ const CERTS: Cert[] = [
   },
 ];
 
+const ADDITIONAL_CERTS: Cert[] = [
+  {
+    title: "Foundations of Prompt Engineering",
+    issuer: "AWS Training and Certification",
+    date: "Date TBD",
+    image: certAws,
+    verify: "blob:https://skillbuilder.aws/3cca1d35-67e8-4036-ad97-ea06fae2b3da",
+  },
+  {
+    title: "Introduction to Critical Infrastructure Protection (ICIP)",
+    issuer: "OPSWAT",
+    date: "Date TBD",
+    image: certOpswat,
+    verify: "https://www.credly.com/badges/33321fa1-4a68-47f4-8ad0-5d05a4844025",
+  }
+];
+
 function Certifications() {
+  const [activeTab, setActiveTab] = useState<"main" | "additional">("main");
+  const [openCert, setOpenCert] = useState<Cert | null>(null);
+
   return (
     <section id="certifications" className="px-4 py-24 sm:px-8">
       <div className="mx-auto max-w-6xl">
@@ -1183,65 +1244,177 @@ function Certifications() {
           <SectionHeader eyebrow="Certifications" title="Verified credentials." />
         </Reveal>
 
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {CERTS.map((c, i) => (
-            <Reveal key={c.title} delay={i * 0.08}>
-              <article
-                className={`glass group relative flex h-full flex-col overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/20 ${
-                  c.featured ? "lg:col-span-2 lg:row-span-1" : ""
-                }`}
+        {ADDITIONAL_CERTS.length > 0 && (
+          <Reveal delay={0.1}>
+            <div className="mb-12 mt-8 flex justify-center">
+              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 p-1.5 backdrop-blur-md">
+                <button
+                  onClick={() => setActiveTab("main")}
+                  className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${
+                    activeTab === "main"
+                      ? "bg-primary text-primary-foreground shadow-md"
+                      : "text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                  }`}
+                >
+                  Main Certifications
+                </button>
+                <button
+                  onClick={() => setActiveTab("additional")}
+                  className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${
+                    activeTab === "additional"
+                      ? "bg-primary text-primary-foreground shadow-md"
+                      : "text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                  }`}
+                >
+                  Additional
+                </button>
+              </div>
+            </div>
+          </Reveal>
+        )}
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="grid gap-5 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {(activeTab === "main" ? CERTS : ADDITIONAL_CERTS).map((c, i) => (
+              <Reveal key={c.title} delay={i * 0.08}>
+                <article
+                  onClick={() => setOpenCert(c)}
+                  className={`glass group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/20 ${
+                    c.featured ? "lg:col-span-2 lg:row-span-1" : ""
+                  }`}
+                >
+                  <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/10 blur-3xl transition-all group-hover:bg-primary/25" />
+                  <div className="relative flex items-start gap-4">
+                    <div
+                      className={`flex ${
+                        c.featured ? "h-14 w-14" : "h-11 w-11"
+                      } shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary`}
+                    >
+                      <Award className={c.featured ? "h-7 w-7" : "h-5 w-5"} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      {c.featured && (
+                        <p className="font-mono text-[10px] uppercase tracking-widest text-primary">Flagship</p>
+                      )}
+                      <h3 className={`font-semibold ${c.featured ? "text-xl" : "text-base"}`}>{c.title}</h3>
+                      <p className="mt-1 text-sm text-muted-foreground">{c.issuer}</p>
+                      <p className="mt-0.5 font-mono text-xs text-muted-foreground">{c.date}</p>
+                    </div>
+                  </div>
+
+                  {c.image && (
+                    <div className="relative mt-5 overflow-hidden rounded-xl border border-border bg-background/40">
+                      <img
+                        src={c.image}
+                        alt={c.title}
+                        className={`h-auto w-full object-contain ${c.featured ? "" : "max-h-56"}`}
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+
+                  <div className="relative mt-5 flex-1" />
+                  <div className="relative mt-4">
+                    {c.inProgress ? (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-3 py-1.5 text-xs font-semibold text-accent">
+                        <Clock className="h-3.5 w-3.5" /> In Progress
+                      </span>
+                    ) : (
+                      <a
+                        href={c.verify}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground transition hover:border-primary/60 hover:bg-primary/10 hover:text-primary"
+                      >
+                        Verify <ExternalLink className="h-3 w-3" />
+                      </a>
+                    )}
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {openCert && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+            >
+              <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setOpenCert(null)} />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="glass-strong relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-3xl p-8"
               >
-                <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/10 blur-3xl transition-all group-hover:bg-primary/25" />
-                <div className="relative flex items-start gap-4">
+                <button
+                  onClick={() => setOpenCert(null)}
+                  aria-label="Close"
+                  className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition hover:bg-primary/10 hover:text-primary"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+                
+                <div className="flex items-start gap-4">
                   <div
                     className={`flex ${
-                      c.featured ? "h-14 w-14" : "h-11 w-11"
+                      openCert.featured ? "h-14 w-14" : "h-11 w-11"
                     } shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary`}
                   >
-                    <Award className={c.featured ? "h-7 w-7" : "h-5 w-5"} />
+                    <Award className={openCert.featured ? "h-7 w-7" : "h-5 w-5"} />
                   </div>
-                  <div className="min-w-0 flex-1">
-                    {c.featured && (
+                  <div>
+                    {openCert.featured && (
                       <p className="font-mono text-[10px] uppercase tracking-widest text-primary">Flagship</p>
                     )}
-                    <h3 className={`font-semibold ${c.featured ? "text-xl" : "text-base"}`}>{c.title}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">{c.issuer}</p>
-                    <p className="mt-0.5 font-mono text-xs text-muted-foreground">{c.date}</p>
+                    <h3 className="text-xl font-bold">{openCert.title}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">{openCert.issuer}</p>
+                    <p className="mt-0.5 font-mono text-xs text-muted-foreground">{openCert.date}</p>
                   </div>
                 </div>
 
-                {c.image && (
-                  <div className="relative mt-5 overflow-hidden rounded-xl border border-border bg-background/40">
-                    <img
-                      src={c.image}
-                      alt={c.title}
-                      className={`h-auto w-full object-contain ${c.featured ? "" : "max-h-56"}`}
-                      loading="lazy"
-                    />
+                {openCert.desc && (
+                  <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{openCert.desc}</p>
+                )}
+
+                {openCert.image && (
+                  <div className="mt-6 overflow-hidden rounded-xl border border-border bg-background/40">
+                    <img src={openCert.image} alt={openCert.title} className="h-auto w-full object-contain" />
                   </div>
                 )}
 
-                <div className="relative mt-5 flex-1" />
-                <div className="relative mt-4">
-                  {c.inProgress ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-3 py-1.5 text-xs font-semibold text-accent">
-                      <Clock className="h-3.5 w-3.5" /> In Progress
+                <div className="mt-6">
+                  {openCert.inProgress ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-4 py-2 text-sm font-semibold text-accent">
+                      <Clock className="h-4 w-4" /> In Progress
                     </span>
                   ) : (
                     <a
-                      href={c.verify}
+                      href={openCert.verify}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground transition hover:border-primary/60 hover:bg-primary/10 hover:text-primary"
+                      className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition hover:scale-105"
                     >
-                      Verify <ExternalLink className="h-3 w-3" />
+                      <ExternalLink className="h-4 w-4" /> Verify Credential
                     </a>
                   )}
                 </div>
-              </article>
-            </Reveal>
-          ))}
-        </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
@@ -1252,6 +1425,26 @@ type ContactFormData = {
   email: string;
   message: string;
 };
+
+function ObfuscatedContact({ icon: Icon, type, value }: { icon: any; type: string; value: string }) {
+  const [revealed, setRevealed] = useState(false);
+  return (
+    <div className="flex items-center gap-3">
+      <Icon className="h-4 w-4 text-primary" />
+      {revealed ? (
+        <span className="font-mono text-muted-foreground">{value}</span>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setRevealed(true)}
+          className="font-mono text-xs text-primary/80 transition-colors hover:text-primary hover:underline"
+        >
+          Click to reveal {type}
+        </button>
+      )}
+    </div>
+  );
+}
 
 function Contact() {
   const {
@@ -1356,14 +1549,8 @@ function Contact() {
                 </p>
               </div>
               <div className="space-y-3 text-sm">
-                <div className="flex items-center gap-3">
-                  <Mail className="h-4 w-4 text-primary" />
-                  <span className="font-mono text-muted-foreground">mdtarekcom376@gmail.com</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="h-4 w-4 text-primary" />
-                  <span className="font-mono text-muted-foreground">01903878932 (WhatsApp)</span>
-                </div>
+                <ObfuscatedContact icon={Mail} type="email" value="mdtarekcom376@gmail.com" />
+                <ObfuscatedContact icon={Phone} type="WhatsApp" value="+880 1903-878932" />
                 <div className="flex items-center gap-3">
                   <MapPin className="h-4 w-4 text-primary" />
                   <span className="text-muted-foreground">Dhaka, Bangladesh</span>

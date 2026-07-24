@@ -30,39 +30,18 @@ type Post = {
 
 const POSTS: Post[] = [
   {
-    title: "From SEO to Security: My First 90 Days as an Aspiring Pentester — editable",
-    excerpt: "How the analytical habits I built in SEO translated directly into recon, reporting, and adversarial thinking during my transition into cybersecurity.",
-    date: "Mar 12, 2026",
-    readTime: "8 min read",
+    title: "From SEO to Security: Transferable Skills in Reconnaissance",
+    excerpt: "How the analytical habits I built dissecting search engine algorithms translated directly into mapping attack surfaces and hunting for misconfigurations during my transition into cybersecurity.",
+    date: "Jul 20, 2026",
+    readTime: "6 min read",
     category: "Career",
     featured: true,
   },
   {
-    title: "Recon Fundamentals for Web App Pentesting — editable",
-    excerpt: "A structured approach to passive and active reconnaissance before touching a single request.",
-    date: "Feb 22, 2026",
-    readTime: "6 min read",
-    category: "Pentesting",
-  },
-  {
-    title: "Reading Your First OWASP Top 10 Report — editable",
-    excerpt: "A beginner-friendly walk-through of how to interpret and act on a Top 10 assessment.",
-    date: "Feb 05, 2026",
-    readTime: "5 min read",
-    category: "Web Security",
-  },
-  {
-    title: "Building a Home Blue-Team Lab — editable",
-    excerpt: "From pfSense segmentation to Suricata + ELK detection pipelines on a budget.",
-    date: "Jan 18, 2026",
-    readTime: "10 min read",
-    category: "Write-ups",
-  },
-  {
-    title: "IDOR in the Wild: A Guided Walk-through — editable",
-    excerpt: "Breaking down a real-world Insecure Direct Object Reference finding from discovery to remediation.",
-    date: "Jan 04, 2026",
-    readTime: "7 min read",
+    title: "Building a SOC Analyst Sandbox: Wazuh & Suricata",
+    excerpt: "A complete walkthrough of how I set up my alert triage environment, routed live events into OpenSearch, and configured custom detection rules to catch common C2 traffic.",
+    date: "Jul 10, 2026",
+    readTime: "8 min read",
     category: "Write-ups",
   },
 ];
@@ -114,8 +93,7 @@ function BlogPage() {
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
             Thoughts on cybersecurity, pentesting, and my journey from SEO to security.
-            Live posts publish to Medium — the cards below are editable placeholders
-            until the RSS feed is wired in.
+            Check out some of my recent technical deep dives below, or follow my live posts on Medium.
           </p>
         </div>
 
